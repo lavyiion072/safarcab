@@ -1,0 +1,188 @@
+/* General Styling */
+body {
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+/* Navbar */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(175deg, #fdf14d, #fcff3a);
+    padding: 15px 30px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 20px;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: #000000;
+    font-size: 16px;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+.nav-links li a:hover {
+    color: #000;
+}
+
+/* Banner Carousel */
+.carousel {
+    width: 100%;
+    overflow: hidden;
+}
+
+.slides img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Search Section */
+#search-cabs {
+    text-align: center;
+    background: #fff;
+    padding: 50px 20px;
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+#search-cabs h2 {
+    font-size: 26px;
+    margin-bottom: 20px;
+}
+
+/* Tab Buttons */
+.tab-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tab-btn {
+    background: #ff3b3b;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    margin: 0 5px;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.tab-btn:hover {
+    background: #000;
+}
+
+/* About Us */
+#about-us {
+    text-align: center;
+    padding: 50px 20px;
+    background: linear-gradient(135deg, #ff8c00, #ff3b3b);
+    color: white;
+}
+
+/* Why Us */
+#why-us {
+    background: #fff;
+    padding: 50px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+#why-us ul {
+    list-style: none;
+    padding: 0;
+}
+
+#why-us ul li {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+/* Suggested Places */
+#places {
+    text-align: center;
+    background: #f5f5f5;
+    padding: 50px;
+}
+
+.place {
+    display: inline-block;
+    margin: 15px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.place img {
+    width: 300px;
+    height: 200px;
+    object-fit: cover;
+}
+
+.place p {
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+/* Footer */
+footer {
+    background: #222;
+    color: #fff;
+    text-align: center;
+    padding: 30px 20px;
+}
+/* Carousel Styling */
+/* Banner Carousel */
+.carousel {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.slides {
+    display: flex;
+    width: 300%; /* Adjust based on the number of slides */
+    transition: transform 0.5s ease-in-out;
+}
+
+.slides img {
+    width: 100%;
+    flex-shrink: 0;
+    height: 400px; /* Adjust as needed */
+    object-fit: cover;
+}
+
+/* Navigation Arrows */
+.prev, .next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    border: none;
+    padding: 15px;
+    cursor: pointer;
+    font-size: 24px;
+    border-radius: 5px;
+}
+
+.prev { left: 10px; }
+.next { right: 10px; }
+
+.prev:hover, .next:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+
