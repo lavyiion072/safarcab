@@ -3,9 +3,19 @@ document.querySelector(".menu-toggle").addEventListener("click", () => {
 });
 
 function showTab(tab) {
+    // Remove "active" class from all tab contents
     document.querySelectorAll(".tab-content").forEach(t => t.classList.remove("active"));
+
+    // Add "active" class to the selected tab
     document.getElementById(tab).classList.add("active");
+
+    // Remove "active" class from all buttons
+    document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+
+    // Add "active" class to the clicked button
+    document.querySelector(`[onclick="showTab('${tab}')"]`).classList.add("active");
 }
+
 
 function closePopup() {
     document.getElementById("popupBanner").style.display = "none";
@@ -40,4 +50,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Event Listeners for arrows
     document.querySelector(".prev").addEventListener("click", () => moveSlide(-1));
     document.querySelector(".next").addEventListener("click", () => moveSlide(1));
+
 });
+

@@ -68,7 +68,7 @@ nav {
 }
 
 .tab-btn {
-    background: #ff3b3b;
+    background: #e7d003;
     color: #fff;
     padding: 10px 20px;
     border: none;
@@ -184,5 +184,118 @@ footer {
 .prev:hover, .next:hover {
     background-color: rgba(0, 0, 0, 0.8);
 }
+/* Cab Listing Section */
+#available-cabs {
+    text-align: center;
+    padding: 40px;
+    background-color: #f8f9fa;
+}
+
+.cab-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+.cab-card {
+    width: 300px;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s ease-in-out;
+}
+
+.cab-card:hover {
+    transform: scale(1.05);
+}
+
+.cab-card img {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+}
+
+.cab-details {
+    padding: 15px;
+    text-align: left;
+}
+
+.cab-details h3 {
+    font-size: 18px;
+    color: #333;
+}
+
+.cab-details p {
+    margin: 5px 0;
+    color: #555;
+}
+
+.book-now {
+    display: block;
+    width: 100%;
+    background: #ff7f50;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-weight: bold;
+    text-decoration: none;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    transition: background 0.3s;
+}
+
+.book-now:hover {
+    background: #f8e63f;
+}
+.tab-btn.active {
+    background-color: #000000;
+    color: white;
+    font-weight: bold;
+}
+.tab-content {
+    display: none;
+}
+.tab-content.active {
+    display: block;
+}
+/* Input Field Styling */
+input[type="date"],
+input[type="time"] {
+    width: 100%;
+    max-width: 300px; /* Adjust as needed */
+    padding: 10px;
+    font-size: 16px;
+    font-family: 'Poppins', sans-serif;
+    border: 2px solid #e7d003; /* Matches your theme */
+    border-radius: 5px;
+    outline: none;
+    background: #fff;
+    color: #333;
+    transition: all 0.3s ease;
+}
+
+/* Hover & Focus Effects */
+input[type="date"]:hover, input[type="time"]:hover,
+input[type="date"]:focus, input[type="time"]:focus {
+    border-color: #000; /* Dark border on focus */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Label Styling */
+label {
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Container for better spacing */
+.input-container {
+    margin-bottom: 20px;
+}
+
 
 

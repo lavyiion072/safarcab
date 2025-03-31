@@ -8,14 +8,11 @@
     <title>Rashmi Cabs - Book Your Taxi</title>
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script src="js/script.js" defer></script>
 </head>
 <body>
-
-    <!-- Popup Banner on Page Load -->
-    <div id="popupBanner">
-        <p>Looking for a Taxi? <button onclick="closePopup()">Book Now</button></p>
-    </div>
 
     <!-- Navbar -->
     <nav>
@@ -30,24 +27,7 @@
             <li><a href="#">Contact</a></li>
             <li><a href="#search-cabs" class="btn">Book Now</a></li>
         </ul>
-        <div class="menu-toggle">
-            <i class="fas fa-bars"></i>
-        </div>
     </nav>
-
-    <section class="carousel">
-        <div class="carousel-container">
-            <div class="slides">
-                <img src="images/Banner1.jpg" alt="Taxi Service">
-                <img src="images/Banner2.png" alt="Cab Ride">
-                <img src="images/Banner3.jpg" alt="Comfortable Taxi">
-            </div>
-        </div>
-        <!-- Navigation Arrows -->
-        <button class="prev" onclick="moveSlide(-1)">&#10094;</button>
-        <button class="next" onclick="moveSlide(1)">&#10095;</button>
-    </section>
-
 
     <!-- Search Available Cabs -->
     <section id="search-cabs">
@@ -58,95 +38,123 @@
         </div>
 
         <div id="oneway" class="tab-content active">
-            <form action="search_cabs.php" method="post">
-                <label>Pickup Location:</label>
-                <input type="text" name="pickup" required placeholder="Enter pickup location">
+            <div style="display: flex; gap: 20px;">
+                <div>
+                    <h3>Pickup Location</h3>
+                    <div id="pickup_map" style="height: 300px; width: 400px;"></div>
+                </div>
+                <div>
+                    <h3>Drop-off Location</h3>
+                    <div id="dropoff_map" style="height: 300px; width: 400px;"></div>
+                </div>
+                <div>
+                    <h3>Fare Details</h3>
+                    Pickup: <p id="pickup_location"></p>
+                    DropOff: <p id="dropoff_location"></p>
+                    Distance: <p id="distance"></p>
+                </div>
+            </div>
 
-                <label>Drop-off Location:</label>
-                <input type="text" name="dropoff" required placeholder="Enter drop-off location">
+            <form id="cabSearchForm" method="post">
+                <input type="hidden" id="pickup_city" name="pickup">
+                <input type="hidden" id="dropoff_city" name="dropoff">
+                <input type="hidden" id="distance_input" name="distance">
+                
 
-                <label>Date:</label>
-                <input type="date" name="date" required>
+                <div class="input-container">
+                    <label for="date">Date:</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
 
-                <label>Time:</label>
-                <input type="time" name="time" required>
-
-                <button type="submit">Search Cabs</button>
-            </form>
-        </div>
-
-        <div id="roundtrip" class="tab-content">
-            <form action="search_cabs.php" method="post">
-                <label>Pickup Location:</label>
-                <input type="text" name="pickup" required>
-
-                <label>Drop-off Location:</label>
-                <input type="text" name="dropoff" required>
-
-                <label>Pickup Date:</label>
-                <input type="date" name="date" required>
-
-                <label>Pickup Time:</label>
-                <input type="time" name="time" required>
-
-                <label>Return Date:</label>
-                <input type="date" name="return_date" required>
-
-                <label>Return Time:</label>
-                <input type="time" name="return_time" required>
+                <div class="input-container">
+                    <label for="time">Time:</label>
+                    <input type="time" id="time" name="time" required>
+                </div>
 
                 <button type="submit">Search Cabs</button>
             </form>
         </div>
     </section>
 
-    <!-- About Us -->
-    <section id="about-us">
-        <h2>About Rashmi Cabs</h2>
-        <p>Providing safe and affordable taxi services for over 10 years.</p>
+    <!-- Available Cabs -->
+    <section id="available-cabs">
+        <h2>Available Cabs</h2>
+        <div id="cabList" class="cab-container"></div>
     </section>
-
-    <!-- Connect With Us -->
-    <section id="connect">
-        <h2>Connect With Us</h2>
-        <p>Follow us on social media:</p>
-        <div class="social-icons">
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
-        </div>
-    </section>
-
-    <!-- Why Us -->
-    <section id="why-us">
-        <h2>Why Choose Us?</h2>
-        <ul>
-            <li>✔ Affordable pricing</li>
-            <li>✔ Safe and hygienic cabs</li>
-            <li>✔ 24/7 customer support</li>
-        </ul>
-    </section>
-
-    <!-- Suggested Famous Places -->
-    <section id="places">
-        <h2>Explore These Famous Places</h2>
-        <div class="place">
-            <img src="images/place1.jpg" alt="Famous Place">
-            <p>Taj Mahal</p>
-        </div>
-        <div class="place">
-            <img src="images/place2.jpg" alt="Famous Place">
-            <p>Gateway of India</p>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <h2>Contact Us</h2>
-        <p>📍 Address: XYZ Street, City, India</p>
-        <p>📞 Phone: +91 1234567890</p>
-        <p>📧 Email: info@rashmicabs.com</p>
-    </footer>
 
 </body>
+
+<script>
+    var pickupMap = L.map('pickup_map').setView([23.0225, 72.5714], 10);
+    var dropoffMap = L.map('dropoff_map').setView([23.0225, 72.5714], 10);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(pickupMap);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(dropoffMap);
+
+    var pickupMarker, dropoffMarker;
+    var pickupCoords, dropoffCoords;
+
+    function reverseGeocode(lat, lon, elementId, inputId) {
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
+            .then(response => response.json())
+            .then(data => {
+                let location = data.address.city || data.address.town || data.address.village || "Unknown";
+                document.getElementById(elementId).innerText = `${location}`;
+                document.getElementById(inputId).value = `${location}`;
+            })
+            .catch(error => console.error("Geocode error:", error));
+    }
+
+    function calculateDistance(lat1, lon1, lat2, lon2) {
+        const R = 6371; // Radius of Earth in km
+        const dLat = (lat2 - lat1) * Math.PI / 180;
+        const dLon = (lon2 - lon1) * Math.PI / 180;
+        const a = Math.sin(dLat/2) * Math.sin(dLat/2) +
+                  Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+                  Math.sin(dLon/2) * Math.sin(dLon/2);
+        const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+        return (R * c).toFixed(2); // Distance in km
+    }
+
+    pickupMap.on('click', function(e) {
+    if (pickupMarker) pickupMap.removeLayer(pickupMarker);
+    pickupMarker = L.marker(e.latlng).addTo(pickupMap).bindPopup("Pickup").openPopup();
+    pickupCoords = e.latlng;
+    reverseGeocode(e.latlng.lat, e.latlng.lng, 'pickup_location', 'pickup_city');
+
+    if (pickupCoords && dropoffCoords) {
+        let distance = calculateDistance(pickupCoords.lat, pickupCoords.lng, dropoffCoords.lat, dropoffCoords.lng);
+        document.getElementById("distance_input").value = distance;
+        document.getElementById("distance").innerText = distance + " km";
+    }
+});
+
+dropoffMap.on('click', function(e) {
+    if (dropoffMarker) dropoffMap.removeLayer(dropoffMarker);
+    dropoffMarker = L.marker(e.latlng).addTo(dropoffMap).bindPopup("Drop-off").openPopup();
+    dropoffCoords = e.latlng;
+    reverseGeocode(e.latlng.lat, e.latlng.lng, 'dropoff_location', 'dropoff_city');
+
+    if (pickupCoords && dropoffCoords) {
+        let distance = calculateDistance(pickupCoords.lat, pickupCoords.lng, dropoffCoords.lat, dropoffCoords.lng);
+        document.getElementById("distance_input").value = distance;
+        document.getElementById("distance").innerText = distance + " km";
+    }
+});
+
+    document.getElementById("cabSearchForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+        let formData = new FormData(this);
+        fetch("search_cabs.php", {
+            method: "POST",
+            body: formData,
+        })
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById("cabList").innerHTML = data;
+        })
+        .catch(error => console.error("Error:", error));
+    });
+</script>
+
 </html>
