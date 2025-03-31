@@ -1,6 +1,7 @@
 <?php
 session_start();
 include 'db.php';
+include 'send_mail.php';
 
 // Check if POST data exists
 if ($_SERVER["REQUEST_METHOD"] != "POST") {
@@ -45,7 +46,6 @@ if (!empty($errors)) {
     header("Location: checkout.php");
     exit;
 }
-
 // ✅ **Step 1: Check if the user exists**
 $stmt = $conn->prepare("SELECT user_id FROM users WHERE phone = ? OR email = ?");
 $stmt->bind_param("ss", $phone, $email);
@@ -94,17 +94,21 @@ if ($stmt->execute()) {
     $stmt = $conn->prepare("INSERT INTO cab_schedule (cab_id, booking_id, available_from, available_until) VALUES (?, ?, ?, DATE_ADD(?, INTERVAL 3 HOUR))");
     $datetime = "$date $time";
     $stmt->bind_param("iiss", $cab_id, $booking_id, $datetime, $datetime);
-
     if ($stmt->execute()) {
         // ✅ **Step 5: Update cab availability**
         $stmt = $conn->prepare("UPDATE cabs SET availability = 0 WHERE cab_id = ?");
         $stmt->bind_param("i", $cab_id);
         $stmt->execute();
-
+        
         // ✅ **Redirect to thank you page**
-        $_SESSION['booking_confirmed'] = true;
-        header("Location: thanks.php");
-        exit;
+        if (sendBookingEmails($user_id, $booking_id, $cab_id)) {
+            print_r("Mail Sent");
+            $_SESSION['booking_confirmed'] = true;
+            header("Location: thanks.php");
+            exit;
+        } else {
+            echo "Failed to send booking email.";
+        }
     } else {
         $_SESSION['errors'][] = "Error inserting cab schedule.";
         header("Location: checkout.php");
