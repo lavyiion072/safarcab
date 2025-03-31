@@ -81,11 +81,23 @@ $round_trip_fare = $one_way_fare * 2; // Double for round trip
                 <label style="margin-top:15px" for="last_name">Last Name:</label>
                 <input type="text" name="last_name" id="last_name" required placeholder="Enter Last Name">
 
-                <label style="margin-top:15px" for="phone">Phone:</label>
-                <input type="text" name="phone" id="phone" required>
+                <label style="margin-top:15px" for="phone">Mobile:</label>
+                <input type="text" name="phone" id="phone" required placeholder="Enter Mobile">
 
                 <label style="margin-top:15px" for="email">Email:</label>
-                <input type="email" name="email" id="email" required>
+                <input type="email" name="email" id="email" required placeholder="Enter Email">
+
+                <label style="margin-top:15px" for="address">Address:</label>
+                <textarea name="address" id="address" required placeholder="Enter Address"></textarea>
+
+                <label style="margin-top:15px" for="phone">City:</label>
+                <input type="text" name="city" id="city" required placeholder="Enter City">
+
+                <label style="margin-top:15px" for="state">State:</label>
+                <input type="text" name="state" id="state" required placeholder="Enter State">
+
+                <label style="margin-top:15px" for="pincode">Pincode:</label>
+                <input type="text" name="pincode" id="pincode" required placeholder="Enter Pincode">
 
                 <label style="margin-top:15px" for="trip_type">Trip Type:</label>
                 <select name="trip_type" id="trip_type" required>
@@ -93,7 +105,7 @@ $round_trip_fare = $one_way_fare * 2; // Double for round trip
                     <option value="round_trip">Round Trip</option>
                 </select>
 
-                <p><strong>Estimated Fare:</strong> ₹<span id="fare_display"><?= number_format($one_way_fare, 2) ?></span></p>
+                <p><strong>Estimated Fare:</strong> ₹<span name="fare" id="fare_display"><?= number_format($one_way_fare, 2) ?></span></p>
 
                 <button type="submit">Confirm Booking</button>
             </form>

@@ -53,3 +53,36 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    document.querySelector("form").addEventListener("submit", function (event) {
+        let errors = [];
+        
+        // Fetch values
+        let firstName = document.getElementById("first_name").value.trim();
+        let lastName = document.getElementById("last_name").value.trim();
+        let phone = document.getElementById("phone").value.trim();
+        let email = document.getElementById("email").value.trim();
+        let city = document.getElementById("city").value.trim();
+        let state = document.getElementById("state").value.trim();
+        let pincode = document.getElementById("pincode").value.trim();
+
+        // Name validation
+        if (firstName === "" || lastName === "") errors.push("Name is required.");
+        
+        // Mobile validation (Indian number format)
+        if (!/^[6-9]\d{9}$/.test(phone)) errors.push("Invalid mobile number. Must be 10 digits.");
+        
+        // Email validation
+        if (!/^\S+@\S+\.\S+$/.test(email)) errors.push("Invalid email format.");
+        
+        // Pincode validation (6 digits)
+        if (!/^\d{6}$/.test(pincode)) errors.push("Invalid pincode.");
+
+        // Display errors or allow submission
+        if (errors.length > 0) {
+            event.preventDefault();
+            alert(errors.join("\n"));
+        }
+    });
+});
+

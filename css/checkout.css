@@ -41,7 +41,7 @@ header {
 }
 
 .checkout-left h2 {
-    color: #cda434;
+    color: #020202;
     border-bottom: 3px solid #ffd700;
     padding-bottom: 5px;
     text-transform: uppercase;
@@ -62,6 +62,7 @@ input[type="text"],
 input[type="email"], 
 input[type="date"], 
 input[type="time"],
+textarea,
 select {
     width: 100%;
     padding: 12px;
