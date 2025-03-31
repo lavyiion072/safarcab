@@ -47,15 +47,15 @@ function sendBookingEmails($user_id, $booking_id, $cab_id) {
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'lppatel879@gmail.com'; // Your email
-        $mail->Password = 'wbmu cqzh zbiv qwpu'; // App Password
+        $mail->Username = ''; // Your email
+        $mail->Password = ''; // App Password
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port = 587;
 
         // 🟢 1st Email: Send Booking Confirmation to the User
-        $mail->setFrom('lppatel879@gmail.com', 'Cab Service');
-        $mail->addAddress("lavp.yiion@gmail.com", $user_name);
-        $mail->addReplyTo('lppatel879@gmail.com', 'Support');
+        $mail->setFrom('', 'Cab Service');
+        $mail->addAddress("", $user_name);
+        $mail->addReplyTo('', 'Support');
         $mail->isHTML(true);
         $mail->Subject = "Your Booking Details - ID #$booking_id";
         $mail->Body = "
@@ -82,7 +82,7 @@ function sendBookingEmails($user_id, $booking_id, $cab_id) {
 
         // 🟠 2nd Email: Notify Cab Service Provider
         $mail->clearAddresses();
-        $mail->addAddress("lavp.yiion@gmail.com", "Cab Service Provider"); // Replace with actual cab provider email
+        $mail->addAddress("", "Cab Service Provider"); // Replace with actual cab provider email
         $mail->Subject = "New Booking Received - ID #$booking_id";
         $mail->Body = "
             <div style='font-family:Arial, sans-serif; padding:20px; background:#fff; border:1px solid #ddd; padding:20px;'>
