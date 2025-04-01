@@ -8,10 +8,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $date = isset($_POST['date']) ? trim($_POST['date']) : null;
     $time = isset($_POST['time']) ? trim($_POST['time']) : null;
     $distance = isset($_POST['distance']) ? trim($_POST['distance']) : null;
+    
     if (!$pickup || !$dropoff || !$date || !$time) {
         echo "<p class='error'>Invalid pickup or drop-off location or date or time. Please try again.</p>";
         exit;
     }
+
+    // Convert selected date & time to DateTime format
+    $selectedDateTime = new DateTime("$date $time");
 
     // Check if locations exist
     $stmt = $conn->prepare("SELECT location_id FROM locations WHERE city_name = ?");
@@ -32,21 +36,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $pickup_location_id = $pickup_location['location_id'];
 
-    // Fetch available cabs
+    // Fetch available cabs with schedule check
     $stmt = $conn->prepare("
-        SELECT cabs.*, locations.city_name AS location 
-        FROM cabs
-        JOIN cab_locations ON cabs.cab_id = cab_locations.cab_id
-        JOIN locations ON cab_locations.location_id = locations.location_id
-        WHERE cab_locations.location_id = ? AND cabs.availability = 1
+        SELECT c.cab_id, c.model, c.cab_number, c.fare_per_km, c.capacity, c.image_path, 
+               l.city_name AS location, cs.available_until
+        FROM cabs c
+        JOIN cab_locations cl ON c.cab_id = cl.cab_id
+        JOIN locations l ON cl.location_id = l.location_id
+        LEFT JOIN cab_schedule cs ON c.cab_id = cs.cab_id
+        WHERE cl.location_id = ? 
+        AND (c.availability = 1 OR cs.available_until < ? OR cs.available_until IS NULL)
+        order by cs.schedule_id desc LIMIT 1
     ");
-    $stmt->bind_param("i", $pickup_location_id);
+    
+    $selectedDateTimeFormatted = $selectedDateTime->format("Y-m-d H:i:s");
+    $stmt->bind_param("is", $pickup_location_id, $selectedDateTimeFormatted);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         while ($cab = $result->fetch_assoc()) {
-            // Encrypt booking details inside the loop
+            // Encrypt booking details
             $bookingDetails = [
                 "cab_id"   => $cab['cab_id'],
                 "pickup"   => $pickup,
