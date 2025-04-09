@@ -288,20 +288,22 @@ p {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 20px;
+    gap: 10px;
+    padding: 10px;
 }
 
 .cab-card {
     width: 300px;
-    background: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    background-color: #fff;
+    border: 1px solid #ddd;
     border-radius: 10px;
     overflow: hidden;
-    transition: transform 0.3s ease-in-out;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
 }
 
 .cab-card:hover {
-    transform: scale(1.05);
+    transform: translateY(-5px);
 }
 
 .cab-card img {
@@ -312,36 +314,23 @@ p {
 
 .cab-details {
     padding: 15px;
-    text-align: left;
-}
-
-.cab-details h3 {
-    font-size: 18px;
-    color: #333;
-}
-
-.cab-details p {
-    margin: 5px 0;
-    color: #555;
 }
 
 .book-now {
     display: block;
-    width: 100%;
-    background: #ff7f50;
-    color: white;
     text-align: center;
-    padding: 10px;
-    font-weight: bold;
+    background-color: #007bff;
+    color: white;
     text-decoration: none;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-    transition: background 0.3s;
+    padding: 10px 15px;
+    margin: 10px;
+    border-radius: 5px;
 }
 
 .book-now:hover {
-    background: #f8e63f;
+    background-color: #0056b3;
 }
+
 .tab-btn.active {
     background-color: #000000;
     color: white;

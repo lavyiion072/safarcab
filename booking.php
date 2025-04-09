@@ -19,17 +19,19 @@ $first_name = validate_input($_POST['first_name']);
 $last_name = validate_input($_POST['last_name']);
 $phone = validate_input($_POST['phone']);
 $email = validate_input($_POST['email']);
-$address = validate_input($_POST['address']);
-$city = validate_input($_POST['city']);
-$state = validate_input($_POST['state']);
-$pincode = validate_input($_POST['pincode']);
+$pickup_address = validate_input($_POST['pickup_address']);
+$dropoff_address = validate_input($_POST['dropoff_address']);
 $pickup = validate_input($_POST['pickup']);
 $dropoff = validate_input($_POST['dropoff']);
 $date = validate_input($_POST['date']);
 $time = validate_input($_POST['time']);
+$returndate = $_POST['returndate'] ?? null;
+$returntime = $_POST['returntime'] ?? null;
+$trip_type = $_POST['trip_type'];
 $distance = filter_var($_POST['distance'], FILTER_VALIDATE_FLOAT);
 $cab_id = filter_var($_POST['cab_id'], FILTER_VALIDATE_INT);
 $final_fare = filter_var($_POST['final_fare'], FILTER_VALIDATE_FLOAT);
+
 
 // Validate data
 $errors = [];
@@ -83,9 +85,9 @@ if ($result->num_rows == 0) {
 }
 
 // ✅ **Step 3: Insert into bookings**
-$stmt = $conn->prepare("INSERT INTO bookings (user_id, cab_id, pickup_point, dropoff_point, pickup_city, dropoff_city, trip_type, pickup_date, pickup_time, total_distance, base_fare, total_fare, status) 
-VALUES (?, ?, ?, ?, ?, ?, 'one-way', ?, ?, ?, ?, ?, 'pending')");
-$stmt->bind_param("iisssssssdd", $user_id, $cab_id, $pickup, $dropoff, $city, $state, $date, $time, $distance, $final_fare, $final_fare);
+$stmt = $conn->prepare("INSERT INTO bookings (user_id, cab_id, pickup_point, dropoff_point, pickup_city, dropoff_city, trip_type, pickup_date, pickup_time, return_date, return_time, total_distance, base_fare, total_fare, status) 
+VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending')");
+$stmt->bind_param("iisssssssdd", $user_id, $cab_id, $pickup_address, $dropoff_address, $pickup, $dropoff, $trip_type, $date, $time, $returndate, $returntime, $distance, $final_fare, $final_fare);
 
 if ($stmt->execute()) {
     $booking_id = $stmt->insert_id;

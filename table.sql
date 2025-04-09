@@ -114,3 +114,9 @@ SET image_path = 'images/cabs/hondaamaze.jpg' WHERE cab_id = 5;
 
 UPDATE cabs 
 SET image_path = 'images/cabs/default.png' WHERE cab_id = 6;
+
+ALTER TABLE locations
+ADD COLUMN lattitude varchar(255) null;
+
+ALTER TABLE locations
+ADD COLUMN longitude varchar(255) null;

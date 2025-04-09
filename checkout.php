@@ -71,6 +71,8 @@ $round_trip_fare = $one_way_fare * 2; // Double for round trip
                 <input type="hidden" name="dropoff" value="<?= htmlspecialchars($booking['dropoff']) ?>">
                 <input type="hidden" name="date" value="<?= htmlspecialchars($booking['date']) ?>">
                 <input type="hidden" name="time" value="<?= htmlspecialchars($booking['time']) ?>">
+                <input type="hidden" name="returndate" value="<?= htmlspecialchars($booking['returndate']) ?>">
+                <input type="hidden" name="returntime" value="<?= htmlspecialchars($booking['returntime']) ?>">
                 <input type="hidden" name="distance" value="<?= $distance ?>">
                 <input type="hidden" name="cab_id" value="<?= $cab_id ?>">
                 <input type="hidden" id="final_fare" name="final_fare" value="<?= $one_way_fare ?>">
@@ -87,18 +89,13 @@ $round_trip_fare = $one_way_fare * 2; // Double for round trip
                 <label style="margin-top:15px" for="email">Email:</label>
                 <input type="email" name="email" id="email" required placeholder="Enter Email">
 
-                <label style="margin-top:15px" for="address">Address:</label>
-                <textarea name="address" id="address" required placeholder="Enter Address"></textarea>
+                <label style="margin-top:15px" for="pickup_address">Pickup Address:</label>
+                <textarea name="pickup_address" id="address" required placeholder="Enter Pickup Address"></textarea>
 
-                <label style="margin-top:15px" for="phone">City:</label>
-                <input type="text" name="city" id="city" required placeholder="Enter City">
-
-                <label style="margin-top:15px" for="state">State:</label>
-                <input type="text" name="state" id="state" required placeholder="Enter State">
-
-                <label style="margin-top:15px" for="pincode">Pincode:</label>
-                <input type="text" name="pincode" id="pincode" required placeholder="Enter Pincode">
-
+                <label style="margin-top:15px" for="dropoff_address">Dropoff Address:</label>
+                <textarea name="dropoff_address" id="address" required placeholder="Enter Dropoff Address"></textarea>
+                
+                
                 <label style="margin-top:15px" for="trip_type">Trip Type:</label>
                 <select name="trip_type" id="trip_type" required>
                     <option value="one_way">One-Way</option>
