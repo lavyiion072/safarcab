@@ -19,21 +19,6 @@
 </head>
 <body>
     <?php include('header.php'); ?>
-
-    <!-- Navbar -->
-    <!-- <nav>
-        <div class="logo">
-            <img src="images/logo.png" alt="Taxi Logo">
-        </div>
-        <ul class="nav-links">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About Us</a></li>
-            <li><a href="#">Gallery</a></li>
-            <li><a href="#">Tariff Card</a></li>
-            <li><a href="#">Contact</a></li>
-            <li><a href="#search-cabs" class="btn">Book Now</a></li>
-        </ul>
-    </nav> -->
     
     <!-- Banner Carousel -->
     <section class="carousel">
@@ -62,155 +47,151 @@
 
         <!-- One-Way Trip Content -->
         <div id="oneway" class="tab-content active">
-            <div class="location-container">
-                <!-- Pickup Selection -->
-                <div class="input-container">
-                    <label>Pickup Location:</label>
-                    <select class="pickup-dropdown location-dropdown" required>
-                        <option value="">Select Pickup Location</option>
-                        <?php
-                        include 'db.php';
-                        $query = "SELECT city_name, state_name, lattitude, longitude FROM locations ORDER BY city_name ASC";
-                        $result = mysqli_query($conn, $query);
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            $city = $row['city_name'];
-                            $lat = $row['lattitude'];
-                            $lng = $row['longitude'];
-                            echo "<option value='$city' data-lat='$lat' data-lng='$lng'>$city</option>";
-                        }
-                        ?>
-                    </select>
-                </div>
+            <form method="post" class="cab-form">
+                <input type="hidden" name="fare_type" value="oneway">
+                <input type="hidden" class="pickup_city" name="pickup">
+                <input type="hidden" class="dropoff_city" name="dropoff">
+                <input type="hidden" class="distance_input" name="distance">
 
-                <!-- Drop-off Selection -->
-                <div class="input-container">
-                    <label>Drop-off Location:</label>
-                    <select class="dropoff-dropdown location-dropdown" required>
-                        <option value="">Select Drop-off Location</option>
-                        <?php
-                        mysqli_data_seek($result, 0);
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            $city = $row['city_name'];
-                            $lat = $row['lattitude'];
-                            $lng = $row['longitude'];
-                            echo "<option value='$city' data-lat='$lat' data-lng='$lng'>$city</option>";
-                        }
-                        ?>
-                    </select>
-                </div>
+                <div class="form-row">
+                    <!-- Pickup -->
+                    <div class="input-container">
+                        <label>Pickup:</label>
+                        <select class="pickup-dropdown location-dropdown" required>
+                            <option value="">Select Pickup Location</option>
+                            <?php
+                            include 'db.php';
+                            $query = "SELECT city_name, state_name, lattitude, longitude FROM locations ORDER BY city_name ASC";
+                            $result = mysqli_query($conn, $query);
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                $city = $row['city_name'];
+                                $lat = $row['lattitude'];
+                                $lng = $row['longitude'];
+                                echo "<option value='$city' data-lat='$lat' data-lng='$lng'>$city</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
 
-                <!-- Cab Search Form -->
-                <form method="post" class="cab-form">
-                    <input type="hidden" class="pickup_city" name="pickup">
-                    <input type="hidden" class="dropoff_city" name="dropoff">
-                    <input type="hidden" class="distance_input" name="distance">
-                    <input type="hidden" name="fare_type" value="oneway">
+                    <!-- Drop -->
+                    <div class="input-container">
+                        <label>Drop-off:</label>
+                        <select class="dropoff-dropdown location-dropdown" required>
+                            <option value="">Select Drop-off Location</option>
+                            <?php
+                            mysqli_data_seek($result, 0);
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                $city = $row['city_name'];
+                                $lat = $row['lattitude'];
+                                $lng = $row['longitude'];
+                                echo "<option value='$city' data-lat='$lat' data-lng='$lng'>$city</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
 
+                    <!-- Date -->
                     <div class="input-container">
                         <label>Date:</label>
                         <input type="date" name="date" required>
                     </div>
 
+                    <!-- Time -->
                     <div class="input-container">
                         <label>Time:</label>
                         <input type="time" name="time" required>
                     </div>
-
-                    <button type="submit" class="submit-btn">Search Cabs</button>
-                </form>
-
-                <!-- Fare Details -->
-                <div class="fare-details">
-                    <h3>Fare Details</h3>
-                    <p><strong>Pickup:</strong> <span class="pickup_location">Not Set</span></p>
-                    <p><strong>DropOff:</strong> <span class="dropoff_location">Not Set</span></p>
-                    <p><strong>Distance:</strong> <span class="distance_display">0 km</span></p>
                 </div>
-            </div>
+
+                <div class="form-action">
+                    <button type="submit" class="submit-btn">Search Cabs</button>
+                </div>
+            </form>
+
+            <!-- Floating Taxi Icon -->
+            <div class="floating-taxi">🚖</div>
         </div>
 
         <!-- Round Trip Content -->
         <div id="roundtrip" class="tab-content">
-            <div class="location-container">
-                <!-- Pickup Selection -->
-                <div class="input-container">
-                    <label>Pickup Location:</label>
-                    <select class="pickup-dropdown location-dropdown" required>
-                        <option value="">Select Pickup Location</option>
-                        <?php
-                        include 'db.php';
-                        $query = "SELECT city_name, state_name, lattitude, longitude FROM locations ORDER BY city_name ASC";
-                        $result = mysqli_query($conn, $query);
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            $city = $row['city_name'];
-                            $lat = $row['lattitude'];
-                            $lng = $row['longitude'];
-                            echo "<option value='$city' data-lat='$lat' data-lng='$lng'>$city</option>";
-                        }
-                        ?>
-                    </select>
-                </div>
+            <form method="post" class="cab-form">
+                <input type="hidden" name="fare_type" value="roundtrip">
+                <input type="hidden" class="pickup_city" name="pickup">
+                <input type="hidden" class="dropoff_city" name="dropoff">
+                <input type="hidden" class="distance_input" name="distance">
 
-                <!-- Drop-off Selection -->
-                <div class="input-container">
-                    <label>Drop-off Location:</label>
-                    <select class="dropoff-dropdown location-dropdown" required>
-                        <option value="">Select Drop-off Location</option>
-                        <?php
-                        mysqli_data_seek($result, 0);
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            $city = $row['city_name'];
-                            $lat = $row['lattitude'];
-                            $lng = $row['longitude'];
-                            echo "<option value='$city' data-lat='$lat' data-lng='$lng'>$city</option>";
-                        }
-                        ?>
-                    </select>
-                </div>
+                <div class="form-row">
+                    <!-- Pickup -->
+                    <div class="input-container">
+                        <label>Pickup:</label>
+                        <select class="pickup-dropdown location-dropdown" required>
+                            <option value="">Select Pickup Location</option>
+                            <?php
+                            include 'db.php';
+                            $query = "SELECT city_name, state_name, lattitude, longitude FROM locations ORDER BY city_name ASC";
+                            $result = mysqli_query($conn, $query);
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                $city = $row['city_name'];
+                                $lat = $row['lattitude'];
+                                $lng = $row['longitude'];
+                                echo "<option value='$city' data-lat='$lat' data-lng='$lng'>$city</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
 
-                <!-- Cab Search Form -->
-                <form method="post" class="cab-form">
-                    <input type="hidden" class="pickup_city" name="pickup">
-                    <input type="hidden" class="dropoff_city" name="dropoff">
-                    <input type="hidden" class="distance_input" name="distance">
-                    <input type="hidden" name="fare_type" value="roundtrip">
+                    <!-- Drop -->
+                    <div class="input-container">
+                        <label>Drop-off:</label>
+                        <select class="dropoff-dropdown location-dropdown" required>
+                            <option value="">Select Drop-off Location</option>
+                            <?php
+                            mysqli_data_seek($result, 0);
+                            while ($row = mysqli_fetch_assoc($result)) {
+                                $city = $row['city_name'];
+                                $lat = $row['lattitude'];
+                                $lng = $row['longitude'];
+                                echo "<option value='$city' data-lat='$lat' data-lng='$lng'>$city</option>";
+                            }
+                            ?>
+                        </select>
+                    </div>
 
+                    <!-- Pickup Date -->
                     <div class="input-container">
                         <label>Date:</label>
                         <input type="date" name="date" required>
                     </div>
 
+                    <!-- Pickup Time -->
                     <div class="input-container">
                         <label>Time:</label>
                         <input type="time" name="time" required>
                     </div>
 
+                    <!-- Return Date -->
                     <div class="input-container">
                         <label>Return Date:</label>
                         <input type="date" name="returndate" required>
                     </div>
 
+                    <!-- Return Time -->
                     <div class="input-container">
                         <label>Return Time:</label>
                         <input type="time" name="returntime" required>
                     </div>
-
-                    <button type="submit" class="submit-btn">Search Cabs</button>
-                </form>
-
-                <!-- Fare Details -->
-                <div class="fare-details">
-                    <h3>Fare Details</h3>
-                    <p><strong>Pickup:</strong> <span class="pickup_location">Not Set</span></p>
-                    <p><strong>DropOff:</strong> <span class="dropoff_location">Not Set</span></p>
-                    <p><strong>Distance:</strong> <span class="distance_display">0 km</span></p>
                 </div>
-            </div>
+
+                <div class="form-action">
+                    <button type="submit" class="submit-btn">Search Cabs</button>
+                </div>
+
+                <!-- Floating Taxi -->
+                <div class="floating-taxi">🚖</div>
+            </form>
         </div>
 
-        <div id="cabList"></div> <!-- Show cabs here -->
     </section>
-
 
     <!-- Available Cabs -->
     <section id="available-cabs">
